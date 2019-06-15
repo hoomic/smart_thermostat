@@ -13,25 +13,25 @@ class Thermostat():
   def __init__(self):
     pass
 
-  def reset(self):
+  def turn_off(self):
     for i in pin_list:
       GPIO.output(i, GPIO.HIGH)
 
   def cool_on(self):
-    self.reset()
+    self.turn_off()
     GPIO.output(2, GPIO.LOW)
     GPIO.output(3, GPIO.LOW)
 
   def heat_on(self):
-    self.reset()
+    self.turn_off()
     GPIO.output(2, GPIO.LOW)
     GPIO.output(4, GPIO.LOW)
 
   def aux_heat_on(self):
-    self.reset()
+    self.turn_off()
     GPIO.output(2, GPIO.LOW)
     GPIO.output(17, GPIO.LOW)
 
   def fan_on(self):
-    self.reset()
+    self.turn_off()
     GPIO.output(2, GPIO.LOW)

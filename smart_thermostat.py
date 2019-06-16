@@ -19,9 +19,13 @@ class State(Enum):
   FAN = 5
 
 class Thermostat():
-  def __init__(self):
+  def __init__(self, tolerance=0.1, use_aux_heat=False, aux_heat_tolerance=5.0):
     self.state = State.OFF
+    self.tolerance = tolerance
+    self.use_aux_heat = use_aux_heat
+    self.aux_heat_tolerance = aux_heat_tolerance
     self.get_humidity_and_temperature()
+    self.temperature_setting = round(self.temperature, 1)
 
   def turn_off(self):
     for i in pin_list:
@@ -53,6 +57,15 @@ class Thermostat():
 
   def get_humidity_and_temperature(self):
     self.humidity, self.temperature = DHT.read_retry(DHT.DHT22, 27)
+    
+  def set_temperature(self, temperature):
+    self.temperature_setting = temperature
 
-
-  
+  def determine_state(self):
+    self.get_humidity_and_temperature()
+    if self.temperature > self.temperature_setting + self.tolerance:
+      self.cool_on()
+    elif self.use_aux_heat and self.temperature < self.temperature_setting - self.aux_heat_tolerance:
+      self.aux_heat_on()
+    elif self.temperature < self.temperature_setting - self.tolerance:
+      self.heat_on()

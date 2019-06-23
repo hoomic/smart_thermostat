@@ -93,7 +93,7 @@ class Message:
       temp = self.request.get("value")
       self.thermostat.set_temperature(int(temp))
       self.thermostat.determine_state()
-      content = {"result": self.thermostat.state}
+      content = {"result": str(self.thermostat.state)}
     else:
       content = {"result": 'Error: invalid action "{}".'.format(action)}
     content_encoding = "utf-8"

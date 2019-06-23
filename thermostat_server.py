@@ -73,8 +73,12 @@ def thermostat_loop():
   finally:
     thermostat.turn_off()
 
-event_thread = threading.Thread(target=event_loop)
-thermostat_thread = threading.Thread(target=thermostat_loop)
+try:
+  event_thread = threading.Thread(target=event_loop)
+  thermostat_thread = threading.Thread(target=thermostat_loop)
 
-event_thread.start()
-thermostat_thread.start()
+  event_thread.start()
+  thermostat_thread.start()
+except KeyboardInterrupt:
+  thermostat.turn_off()
+  sel.close()

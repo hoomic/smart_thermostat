@@ -198,7 +198,7 @@ class Message:
       # Binary or unknown content-type
       self.response = data
       print(
-        f'received {self.jsonheader["content-type"]} response from',
+        'received {} response from'.format(self.jsonheader["content-type"]),
         self.addr,
       )
       self._process_response_binary_content()

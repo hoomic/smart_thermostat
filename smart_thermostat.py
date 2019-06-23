@@ -63,11 +63,34 @@ class Thermostat():
 
   def determine_state(self):
     self.get_humidity_and_temperature()
-    if self.temperature > self.temperature_setting + self.tolerance and self.state != State.COOL:
-      self.cool_on()
-    elif self.use_aux_heat and self.temperature < self.temperature_setting - self.aux_heat_tolerance and self.state != State.AUXHEAT:
-      self.aux_heat_on()
-    elif self.temperature < self.temperature_setting - self.tolerance and self.state != State.HEAT:
-      self.heat_on()
+    if self.temperature > self.temperature_setting + self.tolerance:
+      if self.state != State.COOL:
+        print("Setting state to COOL. temperature={0:.2f}, temp_setting={1:.2f}, tolerace={2:.2f}".format(
+          self.temperature
+          , self.temperature_setting
+          , self.tolerance)
+        )
+        self.cool_on()
+    elif self.use_aux_heat and self.temperature < self.temperature_setting - self.aux_heat_tolerance:
+      if self.state != State.AUXHEAT:
+        print("Setting state to AUXHEAT. temperature={0:.2f}, temp_setting={1:.2f}, tolerace={2:.2f}".format(
+          self.temperature
+          , self.temperature_setting
+          , self.tolerance)
+        )
+        self.aux_heat_on()
+    elif self.temperature < self.temperature_setting - self.tolerance:
+      if self.state != State.HEAT:
+        print("Setting state to HEAT. temperature={0:.2f}, temp_setting={1:.2f}, tolerace={2:.2f}".format(
+          self.temperature
+          , self.temperature_setting
+          , self.tolerance)
+        )
+        self.heat_on()
     elif self.state != State.OFF:
+      print("Setting state to OFF. temperature={0:.2f}, temp_setting={1:.2f}, tolerace={2:.2f}".format(
+        self.temperature
+        , self.temperature_setting
+        , self.tolerance)
+      )
       self.turn_off()

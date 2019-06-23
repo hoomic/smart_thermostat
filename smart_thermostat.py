@@ -63,9 +63,11 @@ class Thermostat():
 
   def determine_state(self):
     self.get_humidity_and_temperature()
-    if self.temperature > self.temperature_setting + self.tolerance:
+    if self.temperature > self.temperature_setting + self.tolerance and self.state != State.COOL:
       self.cool_on()
-    elif self.use_aux_heat and self.temperature < self.temperature_setting - self.aux_heat_tolerance:
+    elif self.use_aux_heat and self.temperature < self.temperature_setting - self.aux_heat_tolerance and self.state != State.AUXHEAT:
       self.aux_heat_on()
-    elif self.temperature < self.temperature_setting - self.tolerance:
+    elif self.temperature < self.temperature_setting - self.tolerance and self.state != State.HEAT:
       self.heat_on()
+    elif self.state != State.OFF:
+      self.turn_off()

@@ -33,7 +33,7 @@ class Message:
     elif mode == "rw":
       events = selectors.EVENT_READ | selectors.EVENT_WRITE
     else:
-      raise ValueError(f"Invalid events mask mode {repr(mode)}.")
+      raise ValueError("Invalid events mask mode {}.".format(repr(mode)))
     self.selector.modify(self.sock, events, data=self)
 
   def _read(self):
@@ -95,7 +95,7 @@ class Message:
       self.thermostat.determine_state()
       content = {"result": self.thermostat.state}
     else:
-      content = {"result": f'Error: invalid action "{action}".'}
+      content = {"result": 'Error: invalid action "{}".'.format(action)}
     content_encoding = "utf-8"
     response = {
       "content_bytes": self._json_encode(content, content_encoding),
@@ -146,16 +146,16 @@ class Message:
       self.selector.unregister(self.sock)
     except Exception as e:
       print(
-        f"error: selector.unregister() exception for",
-        f"{self.addr}: {repr(e)}",
+        "error: selector.unregister() exception for",
+        "{}: {}".format(self.addr, repr(e))
       )
 
     try:
       self.sock.close()
     except OSError as e:
       print(
-        f"error: socket.close() exception for",
-        f"{self.addr}: {repr(e)}",
+        "error: socket.close() exception for",
+        "{}: {}".format(self.addr, repr(e))
       )
     finally:
       # Delete reference to socket object for garbage collection
@@ -183,7 +183,7 @@ class Message:
         "content-encoding",
       ):
         if reqhdr not in self.jsonheader:
-          raise ValueError(f'Missing required header "{reqhdr}".')
+          raise ValueError('Missing required header "{}".'.format(reqhdr))
 
   def process_request(self):
     content_len = self.jsonheader["content-length"]
@@ -199,7 +199,7 @@ class Message:
       # Binary or unknown content-type
       self.request = data
       print(
-        f'received {self.jsonheader["content-type"]} request from',
+        'received {} request from'.format(self.jsonheader["content-type"]),
         self.addr,
       )
     # Set selector to listen for write events, we're done reading.

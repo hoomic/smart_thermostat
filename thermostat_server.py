@@ -5,6 +5,7 @@ import socket
 import selectors
 import traceback
 import threading
+from time import sleep
 
 import libserver
 from smart_thermostat import Thermostat
@@ -66,6 +67,7 @@ def thermostat_loop():
     while True:
       thermostat.determine_state()
       broadcast()
+      sleep(10)
   except KeyboardInterrupt:
     print("caught keyboard interrupt, exiting")
   finally:

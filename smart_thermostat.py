@@ -19,7 +19,7 @@ class State(Enum):
   FAN = 5
 
 class Thermostat():
-  def __init__(self, tolerance=0.1, use_aux_heat=False, aux_heat_tolerance=5.0):
+  def __init__(self, tolerance=0.5, use_aux_heat=False, aux_heat_tolerance=5.0):
     self.state = State.OFF
     self.tolerance = tolerance
     self.use_aux_heat = use_aux_heat
